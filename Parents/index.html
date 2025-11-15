@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elijah's Gift List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #6b8cbc;
+            --accent: #ff6b6b;
+            --light: #f5f7fa;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        
+        .intro {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .intro p {
+            margin-bottom: 1rem;
+        }
+        
+        .cashapp-note {
+            background-color: #fffbeb;
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .cashapp-note h3 {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+        
+        .cashapp-tag {
+            display: inline-block;
+            background-color: var(--warning);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        
+        .categories {
+            margin-bottom: 1.5rem;
+        }
+        
+        .category-title {
+            display: flex;
+            align-items: center;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px 8px 0 0;
+            margin-top: 1.5rem;
+        }
+        
+        .category-title i {
+            margin-right: 0.5rem;
+        }
+        
+        .items-list {
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .item-card {
+            padding: 1.2rem;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        .item-card:last-child {
+            border-bottom: none;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .priority-badge {
+            background-color: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+        }
+        
+        .item-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+        
+        .item-options {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 0.8rem;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(74, 111, 165, 0.1);
+        }
+        
+        .btn i {
+            margin-right: 0.4rem;
+        }
+        
+        .purchased {
+            background-color: #f8f9fa;
+            opacity: 0.8;
+        }
+        
+        .purchased .item-name {
+            text-decoration: line-through;
+        }
+        
+        .purchased-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--success);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+        }
+        
+        .clothing-preferences {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .clothing-preferences h2 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .final-note {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.8rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #777;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        @media (max-width: 600px) {
+            .item-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Elijah's Gift List</h1>
+            <p class="subtitle">For Birthday & Christmas</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="intro">
+            <p>Hi Mom, Dad, and Grandma! Here's my wish list for this year. Feel free to coordinate with each other so we don't get duplicates!</p>
+            <p>Love you all! ❤️</p>
+        </div>
+        
+        <div class="cashapp-note">
+            <h3><i class="fas fa-lightbulb"></i> Alternative Gift Idea</h3>
+            <p>Everything out of your price range or maybe want to give something extra or something a bit cheaper? Send me some cash to my cashapp - I would love that and it would be great, honestly the best gift.</p>
+            <div class="cashapp-tag">$elijah123shepherd</div>
+        </div>
+        
+        <div class="categories">
+            <div class="category-title">
+                <i class="fas fa-headphones"></i>
+                <h2>Electronics & Accessories</h2>
+            </div>
+            <div class="items-list" id="electronics-list">
+                <!-- Electronics items will be added here by JavaScript -->
+            </div>
+            
+            <div class="category-title">
+                <i class="fas fa-home"></i>
+                <h2>Home, Office, & Decor</h2>
+            </div>
+            <div class="items-list" id="home-list">
+                <!-- Home items will be added here by JavaScript -->
+            </div>
+            
+            <div class="category-title">
+                <i class="fas fa-tshirt"></i>
+                <h2>Apparel & Personal Items</h2>
+            </div>
+            <div class="items-list" id="apparel-list">
+                <!-- Apparel items will be added here by JavaScript -->
+            </div>
+            
+            <div class="category-title">
+                <i class="fas fa-palette"></i>
+                <h2>Arts & Crafts</h2>
+            </div>
+            <div class="items-list" id="arts-list">
+                <!-- Arts items will be added here by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="clothing-preferences">
+            <h2><i class="fas fa-shopping-bag"></i> Clothing Preferences</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Type</th>
+                        <th>Size</th>
+                        <th>Style Preference</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pants</td>
+                        <td>36" x 34"</td>
+                        <td>Black or regular jeans, must be the stretchy kind</td>
+                    </tr>
+                    <tr>
+                        <td>Shirts</td>
+                        <td>Extra-Large (XL)</td>
+                        <td>Natural colors: Tan and Black</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="final-note">
+            <p>Note: I don't need anything, all I need is your love, it's alright if nothing is given.</p>
+        </div>
+    </div>
+    
+    <div class="footer-nav">
+        <a href="#" class="nav-item active">
+            <i class="fas fa-gift"></i>
+            <span>Gifts</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-list"></i>
+            <span>My List</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Family</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </div>
+
+    <script>
+        // Gift data
+        const giftItems = [
+            // Electronics
+            {
+                id: 1,
+                category: "electronics",
+                name: "Soundcore Q20i Headphones",
+                description: "Wireless Over-Ear Bluetooth, White, Hybrid Active Noise Cancelling Headphones, 40H Long ANC Playtime, Hi-Res Audio",
+                options: "Color: Almond White",
+                link: "https://www.amazon.com/s?k=Soundcore+Q20i+Almond+White+Headphones",
+                priority: false
+            },
+            {
+                id: 2,
+                category: "electronics",
+                name: "JJGJ 10-inch Android 15 Tablet",
+                description: "2025 Android 15 Tablet 10 Inch, 26GB+256GB+2TB Expand, 2 in 1 Tablets with Keyboard Case Mouse Stylus, 8000mAh Battery, Octa-Core, 5G WiFi",
+                options: "Color: Black",
+                link: "https://www.amazon.com/s?k=Android+15+Tablet+10+Inch+26GB%2B256GB",
+                priority: true
+            },
+            {
+                id: 3,
+                category: "electronics",
+                name: "Elgato Stream Deck MK.2",
+                description: "Studio Controller, 15 macro keys, trigger actions in apps and software like OBS, Twitch, YouTube and more",
+                options: "Color: Black, Style: Stream Deck",
+                link: "https://www.amazon.com/s?k=Elgato+Stream+Deck+MK.2+Black",
+                priority: false
+            },
+            {
+                id: 4,
+                category: "electronics",
+                name: "Gavonde 4K Digital Vlogging Camera",
+                description: "Digital Camera for Photography, 4K Vlogging Camera for YouTube 3\" 180° Flip Screen 18X Digital Zoom Compact Cameras",
+                options: "Color: Black",
+                link: "https://www.amazon.com/s?k=Gavonde+4K+Vlogging+Camera+Black",
+                priority: false
+            },
+            {
+                id: 5,
+                category: "electronics",
+                name: "Baofeng UV-5R Radio (2-Pack)",
+                description: "Ham Radio Handheld Long Range UV5R Dual Band VHF UHF Rechargeable Two Way Radio Walkie Talkies for Adults",
+                options: "Style: Black-2Pack-AR-771",
+                link: "https://www.amazon.com/s?k=Baofeng+UV-5R+Radio+Black+2Pack+AR-771+Antenna",
+                priority: true
+            },
+            {
+                id: 6,
+                category: "electronics",
+                name: "Beats Pill",
+                description: "Portable Bluetooth Speaker - Up to 24H Battery Life, Water Resistant, Bluetooth, Apple/Android Compatible",
+                options: "Color: Matte Black, Set: Without AppleCare+, Style: Pill",
+                link: "https://www.amazon.com/s?k=Beats+Pill+Portable+Bluetooth+Speaker+Matte+Black",
+                priority: false
+            },
+            {
+                id: 7,
+                category: "electronics",
+                name: "DOGAIN Stylus Pen",
+                description: "Stylus Pens for Touch Screens Power-Display Tablet Pen POM Tip Magnetic Digital Touch Pen",
+                options: "Color: 2SS-Black",
+                link: "https://www.amazon.com/s?k=DOGAIN+Stylus+Pens+2SS-Black",
+                priority: false
+            },
+            {
+                id: 8,
+                category: "electronics",
+                name: "Divoom TimeBox Evo",
+                description: "Pixel Art Bluetooth Speaker with 16x16 LED Display APP Control - Cool Animation Frame & Gaming Room Setup & Bedside Alarm Clock",
+                options: "Color: Black",
+                link: "https://www.amazon.com/s?k=Divoom+TimeBox+Evo+Black+Speaker",
+                priority: false
+            },
+            {
+                id: 9,
+                category: "electronics",
+                name: "JBL Tune 500",
+                description: "Wired on-ear headphones, JBL Pure Bass Sound, 1-button remote/mic, Tangle-free flat cable",
+                options: "Color: Black",
+                link: "https://www.amazon.com/s?k=JBL+Tune+500+Wired+Headphones+Black",
+                priority: true
+            },
+            
+            // Home
+            {
+                id: 10,
+                category: "home",
+                name: "Govee 100ft RGBIC LED Strip Lights",
+                description: "Smart LED Lights Work with Alexa and Google Assistant, WiFi App Control Segmented DIY Multiple Colors",
+                options: "Size: 100ft (2 x 50ft)",
+                link: "https://www.amazon.com/s?k=Govee+100ft+RGBIC+LED+Strip+Lights",
+                priority: true
+            },
+            {
+                id: 11,
+                category: "home",
+                name: "Reniteco Large Gaming Mouse Pad",
+                description: "Large Gaming Mouse Pad with Durable Stitched Edges, Non-Slip Rubber Base, Big Computer Keyboard Mouse Mat Desk Pad",
+                options: "Size: 31.5\"x11.8\"x0.12\", Color: Black",
+                link: "https://www.amazon.com/s?k=Reniteco+Large+Gaming+Mouse+Pad+31.5x11.8+Black",
+                priority: true
+            },
+            {
+                id: 12,
+                category: "home",
+                name: "Homedics Tabletop Water Fountain",
+                description: "Home Décor Soothing Sound Machine - Automatic Pump, Deep Basin & Natural River Rocks, 8.25\" Tall",
+                options: "Style: Silver Springs",
+                link: "https://www.amazon.com/s?k=Homedics+WFL-SLVS+Tabletop+Water+Fountain+Silver+Springs",
+                priority: false
+            },
+            {
+                id: 13,
+                category: "home",
+                name: "Dreo Tower Fan (TF117)",
+                description: "Tower Fan Standing Fans 90° Oscillating 4 Speeds 3 Modes 28dB Quiet 8H Timer Remote TF117",
+                options: "Color: Black",
+                link: "https://www.amazon.com/s?k=Dreo+Tower+Fan+TF117+Black",
+                priority: true
+            },
+            {
+                id: 14,
+                category: "home",
+                name: "DreamSky Digital Alarm Clock",
+                description: "Wooden Digital Alarm Clock for Bedroom - Desk Clock for Living Room with Large Numbers, Dimmer, Loud Alarm for Heavy Sleepers",
+                options: "Color: White (White Wood Grain)",
+                link: "https://www.amazon.com/s?k=DreamSky+Wooden+Digital+Alarm+Clock+White",
+                priority: false
+            },
+            {
+                id: 15,
+                category: "home",
+                name: "STANLEY Quencher H2.0 Tumbler",
+                description: "Flowstate Tumbler with Handle and Straw 40 oz, Insulated Stainless Steel Cup",
+                options: "Size: 40 Ounces, Color: Oasis Cream Royal",
+                link: "https://www.amazon.com/s?k=STANLEY+Quencher+H2.0+40+oz+Oasis+Cream+Royal",
+                priority: false
+            },
+            
+            // Apparel
+            {
+                id: 16,
+                category: "apparel",
+                name: "VeraCosy Men's Memory Foam House Slippers",
+                description: "Two-tone Indoor Outdoor, Durable Rubber Sole",
+                options: "Size: 11-12, Color: Muted Black Gray",
+                link: "https://www.amazon.com/s?k=VeraCosy+Men%27s+Memory+Foam+House+Slippers+11-12+Muted+Black+Gray",
+                priority: false
+            },
+            {
+                id: 17,
+                category: "apparel",
+                name: "Nike Unisex Everyday Cushioned Socks (6 Pairs)",
+                description: "Nike Unisex Adult Everyday Cushioned Training Low Socks (6 Pairs)",
+                options: "Color: Black/White, Size: Large",
+                link: "https://www.amazon.com/s?k=Nike+Everyday+Cushioned+Training+Low+Socks+Black%2FWhite+Large",
+                priority: false
+            },
+            {
+                id: 18,
+                category: "apparel",
+                name: "PB ParfumsBelcam G eau Eau de Toilette",
+                description: "Perfume Spray for Men - 3.4 Fl Oz Affordable Long Lasting Cologne, Woody Citrus Fragrance",
+                options: "Scent: Wood, Size: 3.4 Fl Oz (Pack of 1)",
+                link: "https://www.amazon.com/s?k=PB+ParfumsBelcam+G+eau+Eau+de+Toilette+3.4+Fl+Oz",
+                priority: false
+            },
+            
+            // Arts
+            {
+                id: 19,
+                category: "arts",
+                name: "KALOUR Premium 144 Drawing Pencil Set",
+                description: "Including 120 Colored Pencils and 24 Sketch Kit, Art Pencil Kit in Zippered Travel Case",
+                options: "Number of Items: 144",
+                link: "https://www.amazon.com/s?k=KALOUR+Premium+144+Drawing+Pencil+Set",
+                priority: true
+            },
+            {
+                id: 20,
+                category: "arts",
+                name: "ANICTOBS Alcohol Markers (262 Count)",
+                description: "Alcohol Markers 262 Colors with Base Support, Drawing Art Markers Perfect for Students Kids and Adults Comics Sketching",
+                options: "Number of Items: 262",
+                link: "https://www.amazon.com/s?k=ANICTOBS+Alcohol+Markers+262+Colors",
+                priority: true
+            },
+            {
+                id: 21,
+                category: "arts",
+                name: "Soucolor Sketch Book (Pack of 4)",
+                description: "Spiral Bound Acid-Free Sketchbook with 68lb/100gsm for Paper Painting, Drawing, Writing, 100 Sheets",
+                options: "Color: Black, Size: 9\" x 12\" (Pack of 4)",
+                link: "https://www.amazon.com/s?k=Soucolor+Sketch+Book+9x12+Pack+of+4+Black",
+                priority: true
+            }
+        ];
+
+        // Load items from localStorage
+        function loadPurchasedItems() {
+            const purchased = localStorage.getItem('purchasedItems');
+            return purchased ? JSON.parse(purchased) : [];
+        }
+
+        // Save items to localStorage
+        function savePurchasedItems(purchasedItems) {
+            localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+        }
+
+        // Toggle purchased status
+        function togglePurchased(itemId) {
+            let purchasedItems = loadPurchasedItems();
+            const index = purchasedItems.indexOf(itemId);
+            
+            if (index > -1) {
+                purchasedItems.splice(index, 1);
+            } else {
+                purchasedItems.push(itemId);
+            }
+            
+            savePurchasedItems(purchasedItems);
+            renderItems();
+        }
+
+        // Render items to the page
+        function renderItems() {
+            const purchasedItems = loadPurchasedItems();
+            
+            // Clear existing items
+            document.getElementById('electronics-list').innerHTML = '';
+            document.getElementById('home-list').innerHTML = '';
+            document.getElementById('apparel-list').innerHTML = '';
+            document.getElementById('arts-list').innerHTML = '';
+            
+            // Render each item
+            giftItems.forEach(item => {
+                const isPurchased = purchasedItems.includes(item.id);
+                
+                const itemCard = document.createElement('div');
+                itemCard.className = `item-card ${isPurchased ? 'purchased' : ''}`;
+                
+                itemCard.innerHTML = `
+                    <div class="item-header">
+                        <div>
+                            <span class="item-name">${item.name}</span>
+                            ${item.priority ? '<span class="priority-badge">PRIORITY</span>' : ''}
+                        </div>
+                        ${isPurchased ? '<span class="purchased-badge">PURCHASED</span>' : ''}
+                    </div>
+                    <div class="item-description">${item.description}</div>
+                    <div class="item-options"><strong>Selected Options:</strong> ${item.options}</div>
+                    <div class="item-actions">
+                        <a href="${item.link}" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i> View on Amazon
+                        </a>
+                        <button class="btn btn-outline" onclick="togglePurchased(${item.id})">
+                            <i class="fas ${isPurchased ? 'fa-undo' : 'fa-check'}"></i> 
+                            ${isPurchased ? 'Mark as Available' : 'Mark as Purchased'}
+                        </button>
+                    </div>
+                `;
+                
+                // Add to appropriate category
+                document.getElementById(`${item.category}-list`).appendChild(itemCard);
+            });
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            renderItems();
+            
+            // Add click event to footer navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // In a real app, this would navigate to different sections
+                    alert('This feature would navigate to different app sections in a full implementation.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
