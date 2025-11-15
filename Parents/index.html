@@ -73,24 +73,42 @@
             50% { transform: translateY(-10px); }
         }
         
+        @keyframes smoothFade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
         .fade-in {
-            animation: fadeIn 0.5s ease-out;
+            animation: fadeIn 0.6s ease-out;
         }
         
         .slide-in {
-            animation: slideIn 0.3s ease-out;
+            animation: slideIn 0.4s ease-out;
         }
         
         .pulse {
-            animation: pulse 2s infinite;
+            animation: pulse 3s infinite;
         }
         
         .bounce {
-            animation: bounce 2s infinite;
+            animation: bounce 3s infinite;
         }
         
         .float {
-            animation: float 3s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .smooth-fade {
+            animation: smoothFade 0.8s ease-out;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.7s ease-out;
         }
         
         /* Header */
@@ -105,7 +123,35 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 80px;
+            min-height: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-bg-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .header-bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .header-bg-slide.active {
+            opacity: 0.2;
         }
         
         .header-content {
@@ -114,17 +160,24 @@
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         
         .profile-container {
             position: relative;
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             margin-right: 1rem;
             border-radius: 50%;
             overflow: hidden;
             border: 3px solid var(--accent);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-container:hover {
+            transform: scale(1.05);
         }
         
         .profile-image {
@@ -156,31 +209,13 @@
             opacity: 0.9;
         }
         
-        /* Background Slideshow */
-        .bg-slideshow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .bg-slide {
+        .version-indicator {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-        }
-        
-        .bg-slide.active {
-            opacity: 0.4;
+            bottom: 5px;
+            right: 10px;
+            font-size: 0.7rem;
+            opacity: 0.7;
+            color: var(--accent);
         }
         
         /* Container */
@@ -293,6 +328,44 @@
             margin-top: 0.5rem;
         }
         
+        /* Important Notes */
+        .important-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        body.dark-mode .important-note {
+            background-color: #332701;
+            border: 1px solid #5c4a00;
+        }
+        
+        .important-note h3 {
+            color: #856404;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        body.dark-mode .important-note h3 {
+            color: #ffd351;
+        }
+        
+        .important-note h3 i {
+            margin-right: 0.5rem;
+        }
+        
+        .important-note ul {
+            padding-left: 1.2rem;
+        }
+        
+        .important-note li {
+            margin-bottom: 0.5rem;
+        }
+        
         /* Categories */
         .categories {
             margin-bottom: 1.5rem;
@@ -331,6 +404,10 @@
             transition: all 0.3s ease;
         }
         
+        body.dark-mode .item-card {
+            border-bottom: 1px solid #444;
+        }
+        
         .item-card:hover {
             background-color: rgba(0, 0, 0, 0.03);
         }
@@ -359,6 +436,16 @@
         .priority-badge {
             background-color: var(--primary);
             color: var(--accent);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+            animation: pulse 3s infinite;
+        }
+        
+        .top-priority-badge {
+            background-color: #dc3545;
+            color: white;
             font-size: 0.7rem;
             padding: 0.2rem 0.5rem;
             border-radius: 10px;
@@ -426,30 +513,6 @@
         
         .btn i {
             margin-right: 0.4rem;
-        }
-        
-        .purchased {
-            background-color: rgba(0, 0, 0, 0.03);
-            opacity: 0.8;
-        }
-        
-        body.dark-mode .purchased {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        
-        .purchased .item-name {
-            text-decoration: line-through;
-        }
-        
-        .purchased-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--success);
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
         }
         
         /* About Me Section */
@@ -649,12 +712,12 @@
             display: block;
         }
         
-        /* Family View */
-        .family-view {
+        /* Tips & Notes View */
+        .tips-view {
             padding: 1rem;
         }
         
-        .family-member {
+        .tip-card {
             background-color: var(--card-bg);
             border-radius: 8px;
             padding: 1.5rem;
@@ -663,36 +726,18 @@
             transition: transform 0.3s ease;
         }
         
-        .family-member:hover {
+        .tip-card:hover {
             transform: translateY(-5px);
         }
         
-        .family-member-header {
-            display: flex;
-            align-items: center;
+        .tip-card h3 {
             margin-bottom: 1rem;
-        }
-        
-        .family-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: var(--accent);
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-right: 1rem;
         }
         
-        .family-info h3 {
-            margin-bottom: 0.2rem;
-        }
-        
-        .family-info p {
-            color: var(--gray);
-            font-size: 0.9rem;
+        .tip-card h3 i {
+            margin-right: 0.5rem;
         }
         
         /* Settings View */
@@ -815,38 +860,21 @@
             transform: translateX(26px);
         }
         
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
+        .gift-site-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .gift-site-qr {
+            display: flex;
             align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
         }
         
-        .modal-content {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 90%;
-            max-height: 90%;
-            overflow: auto;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text);
+        .gift-site-qr .qr-code {
+            margin-bottom: 0;
         }
         
         /* Responsive */
@@ -877,16 +905,18 @@
                 margin-right: 0;
                 margin-bottom: 0.5rem;
             }
+            
+            .gift-site-qr {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Background Slideshow -->
-    <div class="bg-slideshow" id="bgSlideshow">
-        <!-- Background images will be added by JavaScript -->
-    </div>
-    
     <header>
+        <div class="header-bg-slideshow" id="headerBgSlideshow">
+            <!-- Header background images will be added by JavaScript -->
+        </div>
         <div class="header-content">
             <div class="profile-container" id="profileContainer">
                 <!-- Profile images will be added by JavaScript -->
@@ -895,14 +925,15 @@
                 <h1>Elijah's Gift List</h1>
                 <p class="subtitle">For Birthday & Christmas</p>
             </div>
+            <div class="version-indicator">v1.0 - No Added Items or Updates</div>
         </div>
     </header>
     
     <div class="container">
         <!-- Gift List View -->
         <div class="view active" id="gift-list-view">
-            <div class="guide fade-in">
-                <h3><i class="fas fa-info-circle"></i> How to Use This App</h3>
+            <div class="guide slide-up">
+                <h3><i class="fas fa-info-circle"></i> How to Use This Gift List</h3>
                 <div class="guide-steps">
                     <div class="guide-step">
                         <div class="step-number">1</div>
@@ -910,20 +941,30 @@
                     </div>
                     <div class="guide-step">
                         <div class="step-number">2</div>
-                        <div><strong>Priority items</strong> are marked with a special badge - these are the ones I really want!</div>
+                        <div><strong>Priority items</strong> are marked with badges - these are the ones I really want!</div>
                     </div>
                     <div class="guide-step">
                         <div class="step-number">3</div>
-                        <div>When you decide to purchase an item, click <strong>"Mark as Purchased"</strong> so others know not to get it</div>
+                        <div>If you purchase something, please inform my mother about it if possible</div>
                     </div>
                     <div class="guide-step">
                         <div class="step-number">4</div>
-                        <div>If you prefer, you can send money via CashApp instead</div>
+                        <div>If you prefer, you can send money via CashApp instead of purchasing a physical item</div>
                     </div>
                 </div>
             </div>
             
-            <div class="cashapp-section fade-in">
+            <div class="important-note smooth-fade">
+                <h3><i class="fas fa-exclamation-triangle"></i> Important Notes</h3>
+                <ul>
+                    <li>When you click "View on Amazon", it will take you to Amazon's search results. Some items might not be the first result and may require some scrolling.</li>
+                    <li>These items are not exclusive to Amazon and can be purchased from other sources like Walmart, Target, or local stores.</li>
+                    <li>Please review all items and sections before making a purchase - you might find something else that I want that's less expensive.</li>
+                    <li>If you decide to purchase an item, please be prepared that the site might exit when you click "View on Amazon" to make your purchase.</li>
+                </ul>
+            </div>
+            
+            <div class="cashapp-section slide-up">
                 <h3><i class="fas fa-lightbulb"></i> Alternative Gift Idea</h3>
                 <p>Everything out of your price range or maybe want to give something extra or something a bit cheaper? Send me some cash to my cashapp - I would love that and it would be great, honestly the best gift.</p>
                 <div class="cashapp-tag bounce">
@@ -932,7 +973,7 @@
                 <p class="cashapp-note">CashApp is the perfect gift when you're not sure what to get!</p>
             </div>
             
-            <div class="about-me fade-in">
+            <div class="about-me slide-up">
                 <h2><i class="fas fa-user"></i> About Me</h2>
                 <p>Hi everyone! Since you're considering getting me a gift, I thought I'd share a little about my interests in case you'd like to get something more personal or if some items are out of your budget.</p>
                 
@@ -950,8 +991,8 @@
                         <p>I love photography and would enjoy having a digital camera to carry around and capture moments. Any photography-related items would be wonderful!</p>
                     </div>
                     <div class="about-card">
-                        <h3><i class="fas fa-users"></i> Family & Activities</h3>
-                        <p>Most of all, I enjoy spending time with family and doing fun activities with my hands. Experiences or things we can do together would be amazing gifts too!</p>
+                        <h3><i class="fas fa-badge-check"></i> Career Aspirations</h3>
+                        <p>I'm planning to become a law enforcement officer in the future. The Baofeng radios are my top priority item as they'll help me learn about communication systems used in public safety.</p>
                     </div>
                 </div>
             </div>
@@ -990,16 +1031,16 @@
                 </div>
             </div>
             
-            <div class="cashapp-section fade-in">
+            <div class="cashapp-section slide-up">
                 <h3><i class="fas fa-gift"></i> Still Not Sure What to Get?</h3>
                 <p>Cash is always appreciated and gives me the flexibility to get exactly what I need!</p>
                 <div class="cashapp-tag pulse">
                     <i class="fas fa-money-bill-wave"></i> $elijah123shepherd
                 </div>
-                <p class="cashapp-note">Remember: When you plan on purchasing an item, please click "Mark as Purchased" so others know not to get it!</p>
+                <p class="cashapp-note">Remember: If you purchase an item, please let my mother know to avoid duplicates!</p>
             </div>
             
-            <div class="clothing-preferences fade-in">
+            <div class="clothing-preferences slide-up">
                 <h2><i class="fas fa-shopping-bag"></i> Clothing Preferences</h2>
                 <table>
                     <thead>
@@ -1024,11 +1065,11 @@
                 </table>
             </div>
             
-            <div class="final-note fade-in">
+            <div class="final-note smooth-fade">
                 <p>Note: I don't need anything, all I need is your love, it's alright if nothing is given.</p>
             </div>
             
-            <div class="footer fade-in">
+            <div class="footer smooth-fade">
                 <p>Made with love for my amazing family</p>
                 <div class="developer-credit">
                     <i class="fas fa-code"></i> Powered and Programmed by Elijah Development
@@ -1036,79 +1077,47 @@
             </div>
         </div>
         
-        <!-- My List View -->
-        <div class="view" id="my-list-view">
-            <div class="family-view">
-                <h2 style="text-align: center; margin-bottom: 1.5rem;">My Purchased Items</h2>
-                <div id="purchased-items-list">
-                    <!-- Purchased items will be shown here -->
+        <!-- Tips & Notes View -->
+        <div class="view" id="tips-view">
+            <div class="tips-view">
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">Tips & Important Notes</h2>
+                
+                <div class="tip-card slide-up">
+                    <h3><i class="fas fa-shopping-cart"></i> Purchasing Tips</h3>
+                    <p>When purchasing items from this list, please keep these tips in mind:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.2rem;">
+                        <li>If you purchase an item, please inform my mother to avoid duplicates</li>
+                        <li>Items can be purchased from various retailers, not just Amazon</li>
+                        <li>Consider checking local stores like Walmart or Target for better prices</li>
+                        <li>Review all items before making a decision - you might find something more suitable</li>
+                    </ul>
                 </div>
+                
+                <div class="tip-card slide-up">
+                    <h3><i class="fas fa-box-open"></i> About Amazon Links</h3>
+                    <p>The "View on Amazon" buttons will take you to Amazon search results, not directly to the product. This is because product links can change frequently. You may need to:</p>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.2rem;">
+                        <li>Scroll through a few results to find the exact item</li>
+                        <li>Look for items matching the description and options listed</li>
+                        <li>Check different color/size options if available</li>
+                    </ul>
+                </div>
+                
+                <div class="tip-card slide-up">
+                    <h3><i class="fas fa-star"></i> Priority Items</h3>
+                    <p>Some items are marked as priority, which means I would really love to have them! The absolute top priority item is:</p>
+                    <div style="background: rgba(220, 53, 69, 0.1); padding: 1rem; border-radius: 8px; margin-top: 0.8rem;">
+                        <h4 style="color: #dc3545; margin-bottom: 0.5rem;">Baofeng UV-5R Radio (2-Pack)</h4>
+                        <p>This is my #1 most wanted item as I'm planning to become a law enforcement officer and these radios will help me learn about communication systems.</p>
+                    </div>
+                </div>
+                
                 <div class="cashapp-section" style="margin-top: 2rem;">
                     <h3><i class="fas fa-wallet"></i> CashApp Alternative</h3>
-                    <p>If you haven't purchased anything yet, consider sending money via CashApp instead!</p>
+                    <p>If you're unsure what to get or want to contribute to a larger gift, CashApp is always appreciated!</p>
                     <div class="cashapp-tag">
                         <i class="fas fa-dollar-sign"></i> $elijah123shepherd
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Family View -->
-        <div class="view" id="family-view">
-            <div class="family-view">
-                <h2 style="text-align: center; margin-bottom: 1.5rem;">Family Coordination</h2>
-                
-                <div class="guide">
-                    <h3><i class="fas fa-users"></i> Family Gift Coordination</h3>
-                    <p>This section helps you coordinate with other family members to avoid duplicate gifts.</p>
-                </div>
-                
-                <div class="family-member fade-in">
-                    <div class="family-member-header">
-                        <div class="family-avatar">
-                            <i class="fas fa-female"></i>
-                        </div>
-                        <div class="family-info">
-                            <h3>Mom</h3>
-                            <p>Has purchased 2 items</p>
-                        </div>
-                    </div>
-                    <p><strong>Message:</strong> "I'm getting the tablet and headphones. Dad, maybe you could get the art supplies?"</p>
-                </div>
-                
-                <div class="family-member fade-in">
-                    <div class="family-member-header">
-                        <div class="family-avatar">
-                            <i class="fas fa-male"></i>
-                        </div>
-                        <div class="family-info">
-                            <h3>Dad</h3>
-                            <p>Has purchased 1 item</p>
-                        </div>
-                    </div>
-                    <p><strong>Message:</strong> "I'll get the art supplies and maybe the LED lights. Grandma, would you like to get the clothing items?"</p>
-                </div>
-                
-                <div class="family-member fade-in">
-                    <div class="family-member-header">
-                        <div class="family-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="family-info">
-                            <h3>Grandma</h3>
-                            <p>Has purchased 0 items</p>
-                        </div>
-                    </div>
-                    <p><strong>Message:</strong> "I'll get the clothing items and the slippers. Should we all chip in for the tablet?"</p>
-                </div>
-                
-                <div class="cashapp-section" style="margin-top: 2rem;">
-                    <h3><i class="fas fa-comments"></i> Family CashApp Pool</h3>
-                    <p>Consider pooling money together for bigger gifts through CashApp!</p>
-                    <div class="cashapp-tag">
-                        <i class="fas fa-users"></i> $elijah123shepherd
-                    </div>
-                    <p class="cashapp-note">Send any amount - every little bit helps!</p>
                 </div>
             </div>
         </div>
@@ -1118,7 +1127,7 @@
             <div class="settings-view">
                 <h2 style="text-align: center; margin-bottom: 1.5rem;">App Settings</h2>
                 
-                <div class="settings-option fade-in">
+                <div class="settings-option slide-up">
                     <div class="theme-toggle">
                         <div class="theme-toggle-text">
                             <h3><i class="fas fa-palette"></i> Theme</h3>
@@ -1131,20 +1140,17 @@
                     </div>
                 </div>
                 
-                <div class="settings-option fade-in">
-                    <h3><i class="fas fa-envelope"></i> Send Note to Elijah</h3>
-                    <p>Send a private note or message to Elijah</p>
-                    <div class="item-actions">
-                        <button class="btn btn-primary" id="send-note-btn">Send Note</button>
-                    </div>
-                </div>
-                
-                <div class="settings-option fade-in">
+                <div class="settings-option slide-up">
                     <h3><i class="fas fa-gift"></i> Gift Site</h3>
                     <p>Open the gift site in your browser</p>
-                    <div class="item-actions">
+                    <div class="gift-site-container">
                         <a href="https://hhttps-www.github.io/ElijahsList/Parents" target="_blank" class="btn btn-primary">Open Gift Site</a>
-                        <button class="btn btn-outline" id="show-site-qr">Show QR Code</button>
+                        <div class="gift-site-qr">
+                            <div class="qr-code">
+                                <img src="https://ik.imagekit.io/tycncf0zq0/url_qrcodecreator.com_22_34_26.png?updatedAt=1763181298317" alt="Gift Site QR Code">
+                            </div>
+                            <p>Scan this code to open the gift site on another device</p>
+                        </div>
                     </div>
                 </div>
                 
@@ -1161,7 +1167,7 @@
                     </div>
                 </div>
                 
-                <div class="settings-option fade-in">
+                <div class="settings-option slide-up">
                     <h3><i class="fas fa-phone"></i> Contact</h3>
                     <p>Get in touch with Elijah for any questions</p>
                     <div class="contact-info">
@@ -1184,33 +1190,14 @@
             <i class="fas fa-gift"></i>
             <span>Gifts</span>
         </a>
-        <a href="#" class="nav-item" data-view="my-list-view">
-            <i class="fas fa-list"></i>
-            <span>My List</span>
-        </a>
-        <a href="#" class="nav-item" data-view="family-view">
-            <i class="fas fa-users"></i>
-            <span>Family</span>
+        <a href="#" class="nav-item" data-view="tips-view">
+            <i class="fas fa-lightbulb"></i>
+            <span>Tips</span>
         </a>
         <a href="#" class="nav-item" data-view="settings-view">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
         </a>
-    </div>
-
-    <!-- Modal for QR Code -->
-    <div class="modal" id="site-qr-modal">
-        <div class="modal-content">
-            <span class="modal-close" id="modal-close">&times;</span>
-            <h3>Gift Site QR Code</h3>
-            <div class="qr-container">
-                <div class="qr-code">
-                    <img src="https://ik.imagekit.io/tycncf0zq0/url_qrcodecreator.com_22_34_26.png?updatedAt=1763181298317" alt="Gift Site QR Code">
-                </div>
-            </div>
-            <p>Scan this code to open the gift site</p>
-            <a href="https://hhttps-www.github.io/ElijahsList/Parents" target="_blank" class="btn btn-primary" style="margin-top: 1rem;">Open Gift Site</a>
-        </div>
     </div>
 
     <script>
@@ -1224,8 +1211,8 @@
             'https://ik.imagekit.io/tycncf0zq0/IMG_20251114_215930737.jpg?updatedAt=1763179329334'
         ];
 
-        // Background images (rotating every 3 seconds)
-        const backgroundImages = [
+        // Header background images (rotating every 3 seconds)
+        const headerBackgroundImages = [
             'https://ik.imagekit.io/tycncf0zq0/IMG_20250913_193115509.jpg?updatedAt=1763179694691',
             'https://ik.imagekit.io/tycncf0zq0/IMG_20250918_193159476.jpg?updatedAt=1763179694575',
             'https://ik.imagekit.io/tycncf0zq0/IMG_20251018_074755934.jpg?updatedAt=1763179694814',
@@ -1287,7 +1274,7 @@
                 description: "Ham Radio Handheld Long Range UV5R Dual Band VHF UHF Rechargeable Two Way Radio Walkie Talkies for Adults",
                 options: "Style: Black-2Pack-AR-771",
                 link: "https://www.amazon.com/s?k=Baofeng+UV-5R+Radio+Black+2Pack+AR-771+Antenna",
-                priority: true
+                priority: "top"
             },
             {
                 id: 6,
@@ -1455,16 +1442,16 @@
             });
         }
 
-        // Initialize background images
-        function initBackgroundImages() {
-            const bgSlideshow = document.getElementById('bgSlideshow');
+        // Initialize header background images
+        function initHeaderBackgroundImages() {
+            const headerBgSlideshow = document.getElementById('headerBgSlideshow');
             
-            backgroundImages.forEach((src, index) => {
+            headerBackgroundImages.forEach((src, index) => {
                 const div = document.createElement('div');
-                div.className = 'bg-slide';
+                div.className = 'header-bg-slide';
                 div.style.backgroundImage = `url('${src}')`;
                 if (index === 0) div.classList.add('active');
-                bgSlideshow.appendChild(div);
+                headerBgSlideshow.appendChild(div);
             });
         }
 
@@ -1486,9 +1473,9 @@
             images[nextIndex].classList.add('active');
         }
 
-        // Rotate background images
-        function rotateBackgroundImages() {
-            const slides = document.querySelectorAll('.bg-slide');
+        // Rotate header background images
+        function rotateHeaderBackgroundImages() {
+            const slides = document.querySelectorAll('.header-bg-slide');
             let currentIndex = 0;
             
             // Find current active slide
@@ -1504,37 +1491,8 @@
             slides[nextIndex].classList.add('active');
         }
 
-        // Load items from localStorage
-        function loadPurchasedItems() {
-            const purchased = localStorage.getItem('purchasedItems');
-            return purchased ? JSON.parse(purchased) : [];
-        }
-
-        // Save items to localStorage
-        function savePurchasedItems(purchasedItems) {
-            localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
-        }
-
-        // Toggle purchased status
-        function togglePurchased(itemId) {
-            let purchasedItems = loadPurchasedItems();
-            const index = purchasedItems.indexOf(itemId);
-            
-            if (index > -1) {
-                purchasedItems.splice(index, 1);
-            } else {
-                purchasedItems.push(itemId);
-            }
-            
-            savePurchasedItems(purchasedItems);
-            renderItems();
-            renderPurchasedItems();
-        }
-
         // Render items to the page
         function renderItems() {
-            const purchasedItems = loadPurchasedItems();
-            
             // Clear existing items
             document.getElementById('electronics-list').innerHTML = '';
             document.getElementById('home-list').innerHTML = '';
@@ -1543,18 +1501,22 @@
             
             // Render each item
             giftItems.forEach(item => {
-                const isPurchased = purchasedItems.includes(item.id);
-                
                 const itemCard = document.createElement('div');
-                itemCard.className = `item-card ${isPurchased ? 'purchased' : ''} fade-in`;
+                itemCard.className = 'item-card slide-up';
+                
+                let priorityBadge = '';
+                if (item.priority === "top") {
+                    priorityBadge = '<span class="top-priority-badge">TOP PRIORITY - MOST WANTED!</span>';
+                } else if (item.priority) {
+                    priorityBadge = '<span class="priority-badge">PRIORITY</span>';
+                }
                 
                 itemCard.innerHTML = `
                     <div class="item-header">
                         <div>
                             <span class="item-name">${item.name}</span>
-                            ${item.priority ? '<span class="priority-badge">PRIORITY - I REALLY WANT THIS!</span>' : ''}
+                            ${priorityBadge}
                         </div>
-                        ${isPurchased ? '<span class="purchased-badge">PURCHASED</span>' : ''}
                     </div>
                     <div class="item-description">${item.description}</div>
                     <div class="item-options"><strong>Selected Options:</strong> ${item.options}</div>
@@ -1562,60 +1524,11 @@
                         <a href="${item.link}" target="_blank" class="btn btn-primary">
                             <i class="fas fa-external-link-alt"></i> View on Amazon
                         </a>
-                        <button class="btn btn-outline" onclick="togglePurchased(${item.id})">
-                            <i class="fas ${isPurchased ? 'fa-undo' : 'fa-check'}"></i> 
-                            ${isPurchased ? 'Mark as Available' : 'Mark as Purchased'}
-                        </button>
                     </div>
-                    ${!isPurchased ? '<p style="font-size: 0.8rem; margin-top: 0.5rem; color: #666;"><i class="fas fa-info-circle"></i> <strong>Important:</strong> When you plan on purchasing this item, please click "Mark as Purchased" so others know not to get it. (Will not be viewed by Elijah)</p>' : ''}
                 `;
                 
                 // Add to appropriate category
                 document.getElementById(`${item.category}-list`).appendChild(itemCard);
-            });
-        }
-
-        // Render purchased items in My List view
-        function renderPurchasedItems() {
-            const purchasedItems = loadPurchasedItems();
-            const container = document.getElementById('purchased-items-list');
-            container.innerHTML = '';
-            
-            if (purchasedItems.length === 0) {
-                container.innerHTML = `
-                    <div class="guide">
-                        <h3><i class="fas fa-shopping-cart"></i> No Items Purchased Yet</h3>
-                        <p>You haven't marked any items as purchased. Browse the gift list and mark items you plan to purchase.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            purchasedItems.forEach(itemId => {
-                const item = giftItems.find(i => i.id === itemId);
-                if (item) {
-                    const itemCard = document.createElement('div');
-                    itemCard.className = 'item-card purchased fade-in';
-                    
-                    itemCard.innerHTML = `
-                        <div class="item-header">
-                            <div>
-                                <span class="item-name">${item.name}</span>
-                                ${item.priority ? '<span class="priority-badge">PRIORITY</span>' : ''}
-                            </div>
-                            <span class="purchased-badge">PURCHASED BY YOU</span>
-                        </div>
-                        <div class="item-description">${item.description}</div>
-                        <div class="item-options"><strong>Selected Options:</strong> ${item.options}</div>
-                        <div class="item-actions">
-                            <button class="btn btn-outline" onclick="togglePurchased(${item.id})">
-                                <i class="fas fa-undo"></i> Mark as Available
-                            </button>
-                        </div>
-                    `;
-                    
-                    container.appendChild(itemCard);
-                }
             });
         }
 
@@ -1636,11 +1549,6 @@
                     nav.classList.add('active');
                 }
             });
-            
-            // Special handling for My List view
-            if (viewId === 'my-list-view') {
-                renderPurchasedItems();
-            }
         }
 
         // Toggle dark mode
@@ -1649,54 +1557,15 @@
             localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
         }
 
-        // Send note to Discord
-        function sendNoteToDiscord() {
-            const note = prompt('Enter your note for Elijah:');
-            if (note) {
-                const webhookUrl = 'https://discord.com/api/webhooks/1416644785468604577/IyIDLUdbf_Jayivi9uErWhLRC7Dky65I3pjOSOIw5Amcy0WXuOnJNqLFsshdMTXmqf7r';
-                
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        content: `New note from family member: ${note}`
-                    })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Note sent successfully!');
-                    } else {
-                        alert('Failed to send note. Please try again.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error sending note:', error);
-                    alert('Error sending note. Please try again.');
-                });
-            }
-        }
-
-        // Show site QR modal
-        function showSiteQRModal() {
-            document.getElementById('site-qr-modal').style.display = 'flex';
-        }
-
-        // Close modal
-        function closeModal() {
-            document.getElementById('site-qr-modal').style.display = 'none';
-        }
-
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize images
             initProfileImages();
-            initBackgroundImages();
+            initHeaderBackgroundImages();
             
             // Start image rotation
             setInterval(rotateProfileImages, 6000); // Rotate every 6 seconds
-            setInterval(rotateBackgroundImages, 3000); // Rotate every 3 seconds
+            setInterval(rotateHeaderBackgroundImages, 3000); // Rotate every 3 seconds
             
             // Initialize dark mode
             const darkMode = localStorage.getItem('darkMode') === 'true';
@@ -1707,7 +1576,6 @@
             
             // Render content
             renderItems();
-            renderPurchasedItems();
             
             // Add click event to footer navigation
             const navItems = document.querySelectorAll('.nav-item');
@@ -1721,16 +1589,6 @@
             
             // Add event listeners
             document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleDarkMode);
-            document.getElementById('send-note-btn').addEventListener('click', sendNoteToDiscord);
-            document.getElementById('show-site-qr').addEventListener('click', showSiteQRModal);
-            document.getElementById('modal-close').addEventListener('click', closeModal);
-            
-            // Close modal when clicking outside
-            document.getElementById('site-qr-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal();
-                }
-            });
             
             // Show guide on first visit
             const guideShown = localStorage.getItem('guideShown');
