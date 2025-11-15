@@ -24,6 +24,7 @@
             --gray: #888888;
             --card-bg: #ffffff;
             --text: #000000;
+            --amazon: #ff9900;
         }
         
         body.dark-mode {
@@ -88,6 +89,11 @@
             to { transform: scale(1); opacity: 1; }
         }
         
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         .fade-in {
             animation: fadeIn 0.8s ease-out;
         }
@@ -118,6 +124,10 @@
         
         .scale-in {
             animation: scaleIn 0.7s ease-out;
+        }
+        
+        .spin {
+            animation: spin 1s linear infinite;
         }
         
         /* Header */
@@ -520,6 +530,7 @@
         .item-actions {
             display: flex;
             gap: 0.8rem;
+            flex-wrap: wrap;
         }
         
         .btn {
@@ -563,6 +574,28 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
         
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #ca8a04;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
         .btn i {
             margin-right: 0.4rem;
             transition: transform 0.3s ease;
@@ -570,6 +603,34 @@
         
         .btn:hover i {
             transform: scale(1.1);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .completed-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--success);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+        }
+        
+        .pending-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--warning);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
         }
         
         /* About Me Section */
@@ -992,6 +1053,59 @@
             margin-bottom: 0;
         }
         
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+        
+        /* Completed Items */
+        .completed-items {
+            margin-top: 1rem;
+        }
+        
+        .completed-item {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        body.dark-mode .completed-item {
+            background-color: rgba(34, 197, 94, 0.2);
+        }
+        
         /* Responsive */
         @media (max-width: 600px) {
             .item-actions {
@@ -1068,7 +1182,7 @@
                     </div>
                     <div class="guide-step">
                         <div class="step-number">3</div>
-                        <div>If you purchase something, please inform my mother about it if possible</div>
+                        <div>When you decide to purchase an item, click "Mark as Complete" to confirm, then proceed with the purchase</div>
                     </div>
                     <div class="guide-step">
                         <div class="step-number">4</div>
@@ -1080,10 +1194,12 @@
             <div class="important-note smooth-fade">
                 <h3><i class="fas fa-exclamation-triangle"></i> Important Notes</h3>
                 <ul>
+                    <li><strong>IMPORTANT:</strong> The specific items listed are just ideas - feel free to use your own judgment and buy something similar that you think I might like!</li>
                     <li>When you click "View on Amazon", it will take you to Amazon's search results. Some items might not be the first result and may require some scrolling.</li>
                     <li>These items are not exclusive to Amazon and can be purchased from other sources like Walmart, Target, or local stores.</li>
                     <li>Please review all items and sections before making a purchase - you might find something else that I want that's less expensive.</li>
                     <li>If you decide to purchase an item, please be prepared that the site might exit when you click "View on Amazon" to make your purchase.</li>
+                    <li><strong>Press "Mark as complete" to confirm, then purchase!</strong></li>
                 </ul>
             </div>
             
@@ -1160,7 +1276,7 @@
                 <div class="cashapp-tag pulse">
                     <i class="fas fa-money-bill-wave"></i> $elijah123shepherd
                 </div>
-                <p class="cashapp-note">Remember: If you purchase an item, please let my mother know to avoid duplicates!</p>
+                <p class="cashapp-note">Remember: If you purchase an item, please mark it as complete to notify everyone!</p>
             </div>
             
             <div class="clothing-preferences slide-up">
@@ -1209,7 +1325,8 @@
                     <h3><i class="fas fa-shopping-cart"></i> Purchasing Tips</h3>
                     <p>When purchasing items from this list, please keep these tips in mind:</p>
                     <ul style="margin-top: 0.5rem; padding-left: 1.2rem;">
-                        <li>If you purchase an item, please inform my mother to avoid duplicates</li>
+                        <li><strong>IMPORTANT:</strong> The specific items are just ideas - feel free to buy something similar that you think I might like!</li>
+                        <li>If you purchase an item, please mark it as complete to notify everyone</li>
                         <li>Items can be purchased from various retailers, not just Amazon</li>
                         <li>Consider checking local stores like Walmart or Target for better prices</li>
                         <li>Review all items before making a decision - you might find something more suitable</li>
@@ -1232,6 +1349,13 @@
                     <div style="background: rgba(220, 53, 69, 0.1); padding: 1rem; border-radius: 8px; margin-top: 0.8rem;">
                         <h4 style="color: #dc3545; margin-bottom: 0.5rem;">Baofeng UV-5R Radio (2-Pack)</h4>
                         <p>This is my #1 most wanted item as I'm planning to become a law enforcement officer and these radios will help me learn about communication systems.</p>
+                    </div>
+                </div>
+                
+                <div class="completed-items">
+                    <h3 style="margin-bottom: 1rem;">Completed Items</h3>
+                    <div id="completed-items-list">
+                        <!-- Completed items will be shown here -->
                     </div>
                 </div>
                 
@@ -1308,6 +1432,19 @@
         </div>
     </div>
     
+    <!-- Modal for Confirmations -->
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <h3 id="modal-title">Confirm Purchase</h3>
+            <p id="modal-message">Are you sure you want to mark this item as purchased?</p>
+            <div class="item-actions" style="margin-top: 1.5rem; justify-content: center;">
+                <button class="btn btn-outline" id="modal-cancel">Cancel</button>
+                <button class="btn btn-success" id="modal-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="footer-nav">
         <a href="#" class="nav-item active" data-view="gift-list-view">
             <i class="fas fa-gift"></i>
@@ -1350,6 +1487,9 @@
             'https://ik.imagekit.io/tycncf0zq0/IMG_20251018_091735638.jpg?updatedAt=1763179695955',
             'https://ik.imagekit.io/tycncf0zq0/IMG_20250927_093712272.jpg?updatedAt=1763179695916'
         ];
+
+        // Discord webhook URL
+        const discordWebhookUrl = 'https://discord.com/api/webhooks/1416644785468604577/IyIDLUdbf_Jayivi9uErWhLRC7Dky65I3pjOSOIw5Amcy0WXuOnJNqLFsshdMTXmqf7r';
 
         // Gift data
         const giftItems = [
@@ -1614,8 +1754,188 @@
             slides[nextIndex].classList.add('active');
         }
 
+        // Load completed items from localStorage
+        function loadCompletedItems() {
+            const completed = localStorage.getItem('completedItems');
+            return completed ? JSON.parse(completed) : [];
+        }
+
+        // Save completed items to localStorage
+        function saveCompletedItems(completedItems) {
+            localStorage.setItem('completedItems', JSON.stringify(completedItems));
+        }
+
+        // Load pending items from localStorage
+        function loadPendingItems() {
+            const pending = localStorage.getItem('pendingItems');
+            return pending ? JSON.parse(pending) : [];
+        }
+
+        // Save pending items to localStorage
+        function savePendingItems(pendingItems) {
+            localStorage.setItem('pendingItems', JSON.stringify(pendingItems));
+        }
+
+        // Send Discord webhook
+        async function sendDiscordWebhook(itemName) {
+            const message = {
+                content: `@everyone **ITEM PURCHASED!**\n\n**${itemName}** has been marked as purchased!\n\nThis update may take up to 10 minutes to process.`,
+                embeds: [
+                    {
+                        title: "Gift Purchase Notification",
+                        description: `**${itemName}** has been purchased!`,
+                        color: 3066993,
+                        timestamp: new Date().toISOString(),
+                        footer: {
+                            text: "Elijah's Gift List"
+                        }
+                    }
+                ]
+            };
+
+            // Send 5 webhooks as requested
+            for (let i = 0; i < 5; i++) {
+                try {
+                    await fetch(discordWebhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(message)
+                    });
+                    console.log(`Discord webhook ${i+1} sent successfully`);
+                } catch (error) {
+                    console.error(`Error sending Discord webhook ${i+1}:`, error);
+                }
+                
+                // Small delay between requests
+                if (i < 4) {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+            }
+        }
+
+        // Show confirmation modal
+        function showConfirmationModal(itemId, itemName, confirmationStep) {
+            const modal = document.getElementById('confirmation-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const modalConfirm = document.getElementById('modal-confirm');
+            
+            if (confirmationStep === 1) {
+                modalTitle.textContent = "First Confirmation";
+                modalMessage.textContent = `Are you sure you want to mark "${itemName}" as purchased? This will notify everyone.`;
+                modalConfirm.textContent = "Yes, I'm Sure";
+            } else {
+                modalTitle.textContent = "Final Confirmation";
+                modalMessage.textContent = `This is your final confirmation! Marking "${itemName}" as purchased will send notifications to everyone and cannot be undone. Are you absolutely sure?`;
+                modalConfirm.textContent = "Yes, Mark as Purchased";
+            }
+            
+            modal.style.display = 'flex';
+            
+            // Set up confirm button
+            modalConfirm.onclick = function() {
+                if (confirmationStep === 1) {
+                    modal.style.display = 'none';
+                    showConfirmationModal(itemId, itemName, 2);
+                } else {
+                    markItemAsComplete(itemId, itemName);
+                    modal.style.display = 'none';
+                }
+            };
+        }
+
+        // Mark item as complete
+        function markItemAsComplete(itemId, itemName) {
+            // Add to pending items first
+            const pendingItems = loadPendingItems();
+            if (!pendingItems.includes(itemId)) {
+                pendingItems.push(itemId);
+                savePendingItems(pendingItems);
+            }
+            
+            // Update UI to show pending state
+            updateItemUI(itemId, 'pending');
+            
+            // Send Discord notifications
+            sendDiscordWebhook(itemName);
+            
+            // After 10 minutes, move from pending to completed
+            setTimeout(() => {
+                const pendingItems = loadPendingItems();
+                const index = pendingItems.indexOf(itemId);
+                if (index > -1) {
+                    pendingItems.splice(index, 1);
+                    savePendingItems(pendingItems);
+                }
+                
+                const completedItems = loadCompletedItems();
+                if (!completedItems.includes(itemId)) {
+                    completedItems.push(itemId);
+                    saveCompletedItems(completedItems);
+                }
+                
+                updateItemUI(itemId, 'completed');
+                renderCompletedItems();
+            }, 10 * 60 * 1000); // 10 minutes
+        }
+
+        // Update item UI based on status
+        function updateItemUI(itemId, status) {
+            const itemCard = document.querySelector(`.item-card[data-id="${itemId}"]`);
+            if (!itemCard) return;
+            
+            const completeBtn = itemCard.querySelector('.complete-btn');
+            const amazonBtn = itemCard.querySelector('.amazon-btn');
+            
+            // Remove any existing badges
+            const existingBadge = itemCard.querySelector('.completed-badge, .pending-badge');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+            
+            if (status === 'pending') {
+                // Add pending badge
+                const pendingBadge = document.createElement('span');
+                pendingBadge.className = 'pending-badge';
+                pendingBadge.textContent = 'PENDING - Processing...';
+                itemCard.appendChild(pendingBadge);
+                
+                // Update button to show pending state
+                if (completeBtn) {
+                    completeBtn.innerHTML = '<i class="fas fa-spinner spin"></i> Pending...';
+                    completeBtn.disabled = true;
+                    completeBtn.classList.remove('btn-success');
+                    completeBtn.classList.add('btn-warning');
+                }
+                
+                if (amazonBtn) {
+                    amazonBtn.disabled = true;
+                }
+            } else if (status === 'completed') {
+                // Add completed badge
+                const completedBadge = document.createElement('span');
+                completedBadge.className = 'completed-badge';
+                completedBadge.textContent = 'COMPLETED';
+                itemCard.appendChild(completedBadge);
+                
+                // Remove the complete button
+                if (completeBtn) {
+                    completeBtn.remove();
+                }
+                
+                if (amazonBtn) {
+                    amazonBtn.disabled = true;
+                }
+            }
+        }
+
         // Render items to the page
         function renderItems() {
+            const completedItems = loadCompletedItems();
+            const pendingItems = loadPendingItems();
+            
             // Clear existing items
             document.getElementById('electronics-list').innerHTML = '';
             document.getElementById('home-list').innerHTML = '';
@@ -1624,8 +1944,12 @@
             
             // Render each item
             giftItems.forEach(item => {
+                const isCompleted = completedItems.includes(item.id);
+                const isPending = pendingItems.includes(item.id);
+                
                 const itemCard = document.createElement('div');
                 itemCard.className = 'item-card slide-up';
+                itemCard.setAttribute('data-id', item.id);
                 
                 let priorityBadge = '';
                 if (item.priority === "top") {
@@ -1634,24 +1958,73 @@
                     priorityBadge = '<span class="priority-badge">PRIORITY</span>';
                 }
                 
+                let statusBadge = '';
+                let completeButton = '';
+                let amazonButtonState = '';
+                
+                if (isCompleted) {
+                    statusBadge = '<span class="completed-badge">COMPLETED</span>';
+                    amazonButtonState = 'disabled';
+                } else if (isPending) {
+                    statusBadge = '<span class="pending-badge">PENDING - Processing...</span>';
+                    completeButton = '<button class="btn btn-warning complete-btn" disabled><i class="fas fa-spinner spin"></i> Pending...</button>';
+                    amazonButtonState = 'disabled';
+                } else {
+                    completeButton = `<button class="btn btn-success complete-btn" onclick="showConfirmationModal(${item.id}, '${item.name.replace(/'/g, "\\'")}', 1)"><i class="fas fa-check"></i> Mark as Complete</button>`;
+                }
+                
                 itemCard.innerHTML = `
                     <div class="item-header">
                         <div>
                             <span class="item-name">${item.name}</span>
                             ${priorityBadge}
                         </div>
+                        ${statusBadge}
                     </div>
                     <div class="item-description">${item.description}</div>
                     <div class="item-options"><strong>Selected Options:</strong> ${item.options}</div>
                     <div class="item-actions">
-                        <a href="${item.link}" target="_blank" class="btn btn-primary">
-                            <i class="fas fa-external-link-alt"></i> View on Amazon
+                        <a href="${item.link}" target="_blank" class="btn btn-primary amazon-btn" ${amazonButtonState}>
+                            <i class="fab fa-amazon"></i> View on Amazon
                         </a>
+                        ${completeButton}
                     </div>
                 `;
                 
                 // Add to appropriate category
                 document.getElementById(`${item.category}-list`).appendChild(itemCard);
+            });
+        }
+
+        // Render completed items in Tips view
+        function renderCompletedItems() {
+            const completedItems = loadCompletedItems();
+            const container = document.getElementById('completed-items-list');
+            container.innerHTML = '';
+            
+            if (completedItems.length === 0) {
+                container.innerHTML = '<p>No items have been marked as completed yet.</p>';
+                return;
+            }
+            
+            completedItems.forEach(itemId => {
+                const item = giftItems.find(i => i.id === itemId);
+                if (item) {
+                    const completedItem = document.createElement('div');
+                    completedItem.className = 'completed-item';
+                    
+                    completedItem.innerHTML = `
+                        <div>
+                            <strong>${item.name}</strong>
+                            <div style="font-size: 0.8rem; color: var(--gray); margin-top: 0.2rem;">${item.description}</div>
+                        </div>
+                        <div style="color: var(--success); font-weight: bold;">
+                            <i class="fas fa-check"></i> Purchased
+                        </div>
+                    `;
+                    
+                    container.appendChild(completedItem);
+                }
             });
         }
 
@@ -1672,6 +2045,11 @@
                     nav.classList.add('active');
                 }
             });
+            
+            // Special handling for Tips view
+            if (viewId === 'tips-view') {
+                renderCompletedItems();
+            }
         }
 
         // Toggle dark mode
@@ -1712,6 +2090,22 @@
             
             // Add event listeners
             document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleDarkMode);
+            
+            // Modal close events
+            document.getElementById('modal-close').addEventListener('click', function() {
+                document.getElementById('confirmation-modal').style.display = 'none';
+            });
+            
+            document.getElementById('modal-cancel').addEventListener('click', function() {
+                document.getElementById('confirmation-modal').style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            document.getElementById('confirmation-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
             
             // Show guide on first visit
             const guideShown = localStorage.getItem('guideShown');
