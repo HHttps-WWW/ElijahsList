@@ -55,6 +55,16 @@
             60% { transform: translateY(-5px); }
         }
         
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
         .fade-in {
             animation: fadeIn 0.5s ease-out;
         }
@@ -71,31 +81,98 @@
             animation: bounce 2s infinite;
         }
         
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
         /* Header */
         header {
             background-color: var(--primary);
             color: var(--accent);
-            padding: 1.5rem;
-            text-align: center;
+            padding: 1rem 1.5rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 80px;
         }
         
         .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
             max-width: 800px;
             margin: 0 auto;
         }
         
+        .profile-container {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin-right: 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .profile-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .profile-image.active {
+            opacity: 1;
+        }
+        
+        .header-text {
+            flex-grow: 1;
+        }
+        
         h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
         }
         
         .subtitle {
-            font-size: 1rem;
+            font-size: 0.9rem;
             opacity: 0.9;
+        }
+        
+        /* Background Slideshow */
+        .bg-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .bg-slide.active {
+            opacity: 0.1;
         }
         
         /* Container */
@@ -355,6 +432,62 @@
             border-radius: 10px;
         }
         
+        /* About Me Section */
+        .about-me {
+            background-color: var(--accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .about-me:hover {
+            transform: translateY(-5px);
+        }
+        
+        .about-me h2 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .about-me h2 i {
+            margin-right: 0.5rem;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .about-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .about-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .about-card h3 i {
+            margin-right: 0.5rem;
+            color: var(--secondary);
+        }
+        
         /* Clothing Preferences */
         .clothing-preferences {
             background-color: var(--accent);
@@ -423,6 +556,12 @@
             border-radius: 20px;
             font-weight: bold;
             margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .developer-credit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
         /* Navigation */
@@ -558,14 +697,38 @@
             .guide-steps {
                 gap: 1rem;
             }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-container {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Background Slideshow -->
+    <div class="bg-slideshow" id="bgSlideshow">
+        <!-- Background images will be added by JavaScript -->
+    </div>
+    
     <header>
         <div class="header-content">
-            <h1>Elijah's Gift List</h1>
-            <p class="subtitle">For Birthday & Christmas</p>
+            <div class="profile-container" id="profileContainer">
+                <!-- Profile images will be added by JavaScript -->
+            </div>
+            <div class="header-text">
+                <h1>Elijah's Gift List</h1>
+                <p class="subtitle">For Birthday & Christmas</p>
+            </div>
         </div>
     </header>
     
@@ -601,6 +764,30 @@
                     <i class="fas fa-dollar-sign"></i> $elijah123shepherd
                 </div>
                 <p class="cashapp-note">CashApp is the perfect gift when you're not sure what to get!</p>
+            </div>
+            
+            <div class="about-me fade-in">
+                <h2><i class="fas fa-user"></i> About Me</h2>
+                <p>Hi everyone! Since you're considering getting me a gift, I thought I'd share a little about my interests in case you'd like to get something more personal or if some items are out of your budget.</p>
+                
+                <div class="about-grid">
+                    <div class="about-card">
+                        <h3><i class="fas fa-code"></i> Programming</h3>
+                        <p>I'm passionate about programming and creating digital solutions. I spend a lot of time coding and learning new technologies.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3><i class="fas fa-hands"></i> Sensory Activities</h3>
+                        <p>I believe I have ADHD, so I really enjoy sensory activities like fidgeting, playing with kinetic sand, or other tactile experiences.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3><i class="fas fa-camera"></i> Photography</h3>
+                        <p>I love photography and would enjoy having a digital camera to carry around and capture moments. Any photography-related items would be wonderful!</p>
+                    </div>
+                    <div class="about-card">
+                        <h3><i class="fas fa-users"></i> Family & Activities</h3>
+                        <p>Most of all, I enjoy spending time with family and doing fun activities with my hands. Experiences or things we can do together would be amazing gifts too!</p>
+                    </div>
+                </div>
             </div>
             
             <div class="categories">
@@ -676,7 +863,7 @@
             </div>
             
             <div class="footer fade-in">
-                <p>Made with ❤️ for my amazing family</p>
+                <p>Made with love for my amazing family</p>
                 <div class="developer-credit">
                     <i class="fas fa-code"></i> Powered and Programmed by Elijah Development
                 </div>
@@ -832,6 +1019,33 @@
     </div>
 
     <script>
+        // Profile images (rotating every 6 seconds)
+        const profileImages = [
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251110_194155388.jpg?updatedAt=1763179329910',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251114_215850910.jpg?updatedAt=1763179329911',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20250907_161336867_HDR.jpg?updatedAt=1763179329905',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20250820_065226018_PORTRAIT.jpg?updatedAt=1763179329870',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251114_171358113.jpg?updatedAt=1763179329797',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251114_215930737.jpg?updatedAt=1763179329334'
+        ];
+
+        // Background images (rotating every 3 seconds)
+        const backgroundImages = [
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20250913_193115509.jpg?updatedAt=1763179694691',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20250918_193159476.jpg?updatedAt=1763179694575',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251018_074755934.jpg?updatedAt=1763179694814',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20250918_194354270.jpg?updatedAt=1763179695073',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251101_181922326.jpg?updatedAt=1763179695054',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251101_182306561.jpg?updatedAt=1763179695301',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20250930_070221718.jpg?updatedAt=1763179695719',
+            'https://ik.imagekit.io/tycncf0zq0/bg1.jpg?updatedAt=1763179695635',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251108_172911719.jpg?updatedAt=1763179695544',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251108_115406846.jpg?updatedAt=1763179695320',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251108_172942047.jpg?updatedAt=1763179695647',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20251018_091735638.jpg?updatedAt=1763179695955',
+            'https://ik.imagekit.io/tycncf0zq0/IMG_20250927_093712272.jpg?updatedAt=1763179695916'
+        ];
+
         // Gift data
         const giftItems = [
             // Electronics
@@ -1032,6 +1246,69 @@
             }
         ];
 
+        // Initialize profile images
+        function initProfileImages() {
+            const profileContainer = document.getElementById('profileContainer');
+            
+            profileImages.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Elijah';
+                img.className = 'profile-image';
+                if (index === 0) img.classList.add('active');
+                profileContainer.appendChild(img);
+            });
+        }
+
+        // Initialize background images
+        function initBackgroundImages() {
+            const bgSlideshow = document.getElementById('bgSlideshow');
+            
+            backgroundImages.forEach((src, index) => {
+                const div = document.createElement('div');
+                div.className = 'bg-slide';
+                div.style.backgroundImage = `url('${src}')`;
+                if (index === 0) div.classList.add('active');
+                bgSlideshow.appendChild(div);
+            });
+        }
+
+        // Rotate profile images
+        function rotateProfileImages() {
+            const images = document.querySelectorAll('.profile-image');
+            let currentIndex = 0;
+            
+            // Find current active image
+            images.forEach((img, index) => {
+                if (img.classList.contains('active')) {
+                    currentIndex = index;
+                    img.classList.remove('active');
+                }
+            });
+            
+            // Calculate next index
+            const nextIndex = (currentIndex + 1) % images.length;
+            images[nextIndex].classList.add('active');
+        }
+
+        // Rotate background images
+        function rotateBackgroundImages() {
+            const slides = document.querySelectorAll('.bg-slide');
+            let currentIndex = 0;
+            
+            // Find current active slide
+            slides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentIndex = index;
+                    slide.classList.remove('active');
+                }
+            });
+            
+            // Calculate next index
+            const nextIndex = (currentIndex + 1) % slides.length;
+            slides[nextIndex].classList.add('active');
+        }
+
         // Load items from localStorage
         function loadPurchasedItems() {
             const purchased = localStorage.getItem('purchasedItems');
@@ -1173,6 +1450,15 @@
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize images
+            initProfileImages();
+            initBackgroundImages();
+            
+            // Start image rotation
+            setInterval(rotateProfileImages, 6000); // Rotate every 6 seconds
+            setInterval(rotateBackgroundImages, 3000); // Rotate every 3 seconds
+            
+            // Render content
             renderItems();
             renderPurchasedItems();
             
