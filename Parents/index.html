@@ -22,14 +22,27 @@
             --success: #22c55e;
             --warning: #eab308;
             --gray: #888888;
+            --card-bg: #ffffff;
+            --text: #000000;
+        }
+        
+        body.dark-mode {
+            --primary: #ffffff;
+            --secondary: #cccccc;
+            --accent: #000000;
+            --light: #121212;
+            --dark: #e1e1e1;
+            --card-bg: #1e1e1e;
+            --text: #ffffff;
         }
         
         body {
             background-color: var(--light);
-            color: var(--primary);
+            color: var(--text);
             line-height: 1.6;
             padding-bottom: 80px;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         /* Animations */
@@ -58,11 +71,6 @@
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
-        }
-        
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
         }
         
         .fade-in {
@@ -172,7 +180,7 @@
         }
         
         .bg-slide.active {
-            opacity: 0.1;
+            opacity: 0.4;
         }
         
         /* Container */
@@ -184,7 +192,7 @@
         
         /* Guide */
         .guide {
-            background-color: var(--accent);
+            background-color: var(--card-bg);
             border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
@@ -199,7 +207,7 @@
         
         .guide h3 {
             margin-bottom: 1rem;
-            color: var(--primary);
+            color: var(--text);
             display: flex;
             align-items: center;
         }
@@ -310,7 +318,7 @@
         }
         
         .items-list {
-            background-color: var(--accent);
+            background-color: var(--card-bg);
             border-radius: 0 0 8px 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
@@ -324,7 +332,11 @@
         }
         
         .item-card:hover {
-            background-color: #f9f9f9;
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        
+        body.dark-mode .item-card:hover {
+            background-color: rgba(255, 255, 255, 0.05);
         }
         
         .item-card:last-child {
@@ -341,7 +353,7 @@
         .item-name {
             font-weight: 600;
             font-size: 1.1rem;
-            color: var(--dark);
+            color: var(--text);
         }
         
         .priority-badge {
@@ -408,13 +420,21 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
+        body.dark-mode .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
         .btn i {
             margin-right: 0.4rem;
         }
         
         .purchased {
-            background-color: #f8f9fa;
+            background-color: rgba(0, 0, 0, 0.03);
             opacity: 0.8;
+        }
+        
+        body.dark-mode .purchased {
+            background-color: rgba(255, 255, 255, 0.05);
         }
         
         .purchased .item-name {
@@ -434,7 +454,7 @@
         
         /* About Me Section */
         .about-me {
-            background-color: var(--accent);
+            background-color: var(--card-bg);
             border-radius: 12px;
             padding: 1.5rem;
             margin: 1.5rem 0;
@@ -448,7 +468,7 @@
         
         .about-me h2 {
             margin-bottom: 1rem;
-            color: var(--primary);
+            color: var(--text);
             display: flex;
             align-items: center;
         }
@@ -465,10 +485,14 @@
         }
         
         .about-card {
-            background-color: #f8f9fa;
+            background-color: rgba(0, 0, 0, 0.03);
             border-radius: 8px;
             padding: 1.2rem;
             transition: all 0.3s ease;
+        }
+        
+        body.dark-mode .about-card {
+            background-color: rgba(255, 255, 255, 0.05);
         }
         
         .about-card:hover {
@@ -478,7 +502,7 @@
         
         .about-card h3 {
             margin-bottom: 0.8rem;
-            color: var(--primary);
+            color: var(--text);
             display: flex;
             align-items: center;
         }
@@ -490,7 +514,7 @@
         
         /* Clothing Preferences */
         .clothing-preferences {
-            background-color: var(--accent);
+            background-color: var(--card-bg);
             border-radius: 8px;
             padding: 1.5rem;
             margin-top: 1.5rem;
@@ -504,7 +528,7 @@
         
         .clothing-preferences h2 {
             margin-bottom: 1rem;
-            color: var(--primary);
+            color: var(--text);
             display: flex;
             align-items: center;
         }
@@ -524,9 +548,17 @@
             border-bottom: 1px solid #eee;
         }
         
+        body.dark-mode th, body.dark-mode td {
+            border-bottom: 1px solid #444;
+        }
+        
         th {
-            background-color: #f8f9fa;
+            background-color: rgba(0, 0, 0, 0.03);
             font-weight: 600;
+        }
+        
+        body.dark-mode th {
+            background-color: rgba(255, 255, 255, 0.05);
         }
         
         /* Final Note */
@@ -546,6 +578,10 @@
             color: var(--gray);
             font-size: 0.9rem;
             border-top: 1px solid #eee;
+        }
+        
+        body.dark-mode .footer {
+            border-top: 1px solid #444;
         }
         
         .developer-credit {
@@ -570,7 +606,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: var(--accent);
+            background-color: var(--card-bg);
             display: flex;
             justify-content: space-around;
             padding: 0.8rem;
@@ -595,6 +631,10 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
         
+        body.dark-mode .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
         .nav-item i {
             font-size: 1.2rem;
             margin-bottom: 0.3rem;
@@ -615,7 +655,7 @@
         }
         
         .family-member {
-            background-color: var(--accent);
+            background-color: var(--card-bg);
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1rem;
@@ -661,7 +701,7 @@
         }
         
         .settings-option {
-            background-color: var(--accent);
+            background-color: var(--card-bg);
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1rem;
@@ -681,6 +721,132 @@
         
         .settings-option h3 i {
             margin-right: 0.5rem;
+        }
+        
+        .contact-info {
+            margin-top: 1rem;
+        }
+        
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+        
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .theme-toggle-text {
+            flex-grow: 1;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
         }
         
         /* Responsive */
@@ -953,40 +1119,54 @@
                 <h2 style="text-align: center; margin-bottom: 1.5rem;">App Settings</h2>
                 
                 <div class="settings-option fade-in">
-                    <h3><i class="fas fa-bell"></i> Notifications</h3>
-                    <p>Get notified when family members purchase items</p>
-                    <div class="item-actions">
-                        <button class="btn btn-primary">Enable Notifications</button>
+                    <div class="theme-toggle">
+                        <div class="theme-toggle-text">
+                            <h3><i class="fas fa-palette"></i> Theme</h3>
+                            <p>Switch between light and dark mode</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-toggle-checkbox">
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
                 
                 <div class="settings-option fade-in">
-                    <h3><i class="fas fa-sync"></i> Sync Data</h3>
-                    <p>Sync your purchased items across devices</p>
+                    <h3><i class="fas fa-envelope"></i> Send Note to Elijah</h3>
+                    <p>Send a private note or message to Elijah</p>
                     <div class="item-actions">
-                        <button class="btn btn-outline">Sync Now</button>
+                        <button class="btn btn-primary" id="send-note-btn">Send Note</button>
                     </div>
                 </div>
                 
                 <div class="settings-option fade-in">
-                    <h3><i class="fas fa-share"></i> Share List</h3>
-                    <p>Share this gift list with other family members</p>
+                    <h3><i class="fas fa-gift"></i> Gift Site</h3>
+                    <p>Open the gift site in your browser</p>
                     <div class="item-actions">
-                        <button class="btn btn-outline">Share via Link</button>
+                        <a href="https://hhttps-www.github.io/ElijahsList/Parents" target="_blank" class="btn btn-primary">Open Gift Site</a>
+                        <button class="btn btn-outline" id="show-site-qr">Show QR Code</button>
                     </div>
                 </div>
                 
                 <div class="cashapp-section" style="margin-top: 2rem;">
                     <h3><i class="fas fa-qrcode"></i> CashApp QR Code</h3>
                     <p>Scan this code with CashApp to send money quickly</p>
-                    <div style="background: white; padding: 1rem; display: inline-block; border-radius: 8px; margin: 1rem 0;">
-                        <!-- Placeholder for QR code -->
-                        <div style="width: 150px; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
-                            <i class="fas fa-qrcode" style="font-size: 3rem; color: #333;"></i>
+                    <div class="qr-container">
+                        <div class="qr-code">
+                            <img src="https://ik.imagekit.io/tycncf0zq0/Screenshot%202025-11-14%20223615.png?updatedAt=1763181471747" alt="CashApp QR Code">
                         </div>
                     </div>
                     <div class="cashapp-tag">
                         <i class="fas fa-dollar-sign"></i> $elijah123shepherd
+                    </div>
+                </div>
+                
+                <div class="settings-option fade-in">
+                    <h3><i class="fas fa-phone"></i> Contact</h3>
+                    <p>Get in touch with Elijah for any questions</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> 479-401-7929</p>
+                        <p><i class="fas fa-envelope"></i> elijahshepherd.dev@gmail.com</p>
                     </div>
                 </div>
                 
@@ -1016,6 +1196,21 @@
             <i class="fas fa-cog"></i>
             <span>Settings</span>
         </a>
+    </div>
+
+    <!-- Modal for QR Code -->
+    <div class="modal" id="site-qr-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <h3>Gift Site QR Code</h3>
+            <div class="qr-container">
+                <div class="qr-code">
+                    <img src="https://ik.imagekit.io/tycncf0zq0/url_qrcodecreator.com_22_34_26.png?updatedAt=1763181298317" alt="Gift Site QR Code">
+                </div>
+            </div>
+            <p>Scan this code to open the gift site</p>
+            <a href="https://hhttps-www.github.io/ElijahsList/Parents" target="_blank" class="btn btn-primary" style="margin-top: 1rem;">Open Gift Site</a>
+        </div>
     </div>
 
     <script>
@@ -1448,6 +1643,51 @@
             }
         }
 
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        // Send note to Discord
+        function sendNoteToDiscord() {
+            const note = prompt('Enter your note for Elijah:');
+            if (note) {
+                const webhookUrl = 'https://discord.com/api/webhooks/1416644785468604577/IyIDLUdbf_Jayivi9uErWhLRC7Dky65I3pjOSOIw5Amcy0WXuOnJNqLFsshdMTXmqf7r';
+                
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: `New note from family member: ${note}`
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Note sent successfully!');
+                    } else {
+                        alert('Failed to send note. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending note:', error);
+                    alert('Error sending note. Please try again.');
+                });
+            }
+        }
+
+        // Show site QR modal
+        function showSiteQRModal() {
+            document.getElementById('site-qr-modal').style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('site-qr-modal').style.display = 'none';
+        }
+
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize images
@@ -1457,6 +1697,13 @@
             // Start image rotation
             setInterval(rotateProfileImages, 6000); // Rotate every 6 seconds
             setInterval(rotateBackgroundImages, 3000); // Rotate every 3 seconds
+            
+            // Initialize dark mode
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle-checkbox').checked = true;
+            }
             
             // Render content
             renderItems();
@@ -1470,6 +1717,19 @@
                     const viewId = this.getAttribute('data-view');
                     switchView(viewId);
                 });
+            });
+            
+            // Add event listeners
+            document.getElementById('theme-toggle-checkbox').addEventListener('change', toggleDarkMode);
+            document.getElementById('send-note-btn').addEventListener('click', sendNoteToDiscord);
+            document.getElementById('show-site-qr').addEventListener('click', showSiteQRModal);
+            document.getElementById('modal-close').addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            document.getElementById('site-qr-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
             });
             
             // Show guide on first visit
