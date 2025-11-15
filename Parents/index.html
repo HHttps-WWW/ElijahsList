@@ -14,25 +14,67 @@
         }
         
         :root {
-            --primary: #4a6fa5;
-            --secondary: #6b8cbc;
-            --accent: #ff6b6b;
-            --light: #f5f7fa;
-            --dark: #2c3e50;
-            --success: #2ecc71;
-            --warning: #f39c12;
+            --primary: #000000;
+            --secondary: #333333;
+            --accent: #ffffff;
+            --light: #f5f5f5;
+            --dark: #111111;
+            --success: #22c55e;
+            --warning: #eab308;
+            --gray: #888888;
         }
         
         body {
             background-color: var(--light);
-            color: var(--dark);
+            color: var(--primary);
             line-height: 1.6;
             padding-bottom: 80px;
+            overflow-x: hidden;
         }
         
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        /* Header */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            background-color: var(--primary);
+            color: var(--accent);
             padding: 1.5rem;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -56,48 +98,117 @@
             opacity: 0.9;
         }
         
+        /* Container */
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 1.5rem;
         }
         
-        .intro {
-            background-color: white;
+        /* Guide */
+        .guide {
+            background-color: var(--accent);
             border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            text-align: center;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
         }
         
-        .intro p {
+        .guide:hover {
+            transform: translateY(-5px);
+        }
+        
+        .guide h3 {
             margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
         }
         
-        .cashapp-note {
-            background-color: #fffbeb;
-            border-left: 4px solid var(--warning);
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
+        .guide h3 i {
+            margin-right: 0.5rem;
         }
         
-        .cashapp-note h3 {
-            color: var(--warning);
-            margin-bottom: 0.5rem;
+        .guide-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .guide-step {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: var(--accent);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 0.8rem;
+            flex-shrink: 0;
+        }
+        
+        /* CashApp Section */
+        .cashapp-section {
+            background-color: var(--primary);
+            color: var(--accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .cashapp-section:hover {
+            transform: scale(1.02);
+        }
+        
+        .cashapp-section h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cashapp-section h3 i {
+            margin-right: 0.5rem;
         }
         
         .cashapp-tag {
             display: inline-block;
-            background-color: var(--warning);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
             font-weight: bold;
+            margin: 1rem 0;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .cashapp-tag:hover {
+            background-color: var(--warning);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .cashapp-note {
+            font-size: 0.9rem;
+            opacity: 0.9;
             margin-top: 0.5rem;
         }
         
+        /* Categories */
         .categories {
             margin-bottom: 1.5rem;
         }
@@ -106,10 +217,15 @@
             display: flex;
             align-items: center;
             background-color: var(--primary);
-            color: white;
+            color: var(--accent);
             padding: 0.8rem 1rem;
             border-radius: 8px 8px 0 0;
             margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .category-title:hover {
+            background-color: var(--secondary);
         }
         
         .category-title i {
@@ -117,7 +233,7 @@
         }
         
         .items-list {
-            background-color: white;
+            background-color: var(--accent);
             border-radius: 0 0 8px 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
@@ -127,6 +243,11 @@
             padding: 1.2rem;
             border-bottom: 1px solid #eee;
             position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .item-card:hover {
+            background-color: #f9f9f9;
         }
         
         .item-card:last-child {
@@ -147,23 +268,24 @@
         }
         
         .priority-badge {
-            background-color: var(--accent);
-            color: white;
+            background-color: var(--primary);
+            color: var(--accent);
             font-size: 0.7rem;
             padding: 0.2rem 0.5rem;
             border-radius: 10px;
             margin-left: 0.5rem;
+            animation: pulse 2s infinite;
         }
         
         .item-description {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--gray);
             margin-bottom: 0.8rem;
         }
         
         .item-options {
             font-size: 0.85rem;
-            color: #777;
+            color: var(--gray);
             margin-bottom: 0.8rem;
         }
         
@@ -181,18 +303,20 @@
             font-weight: 500;
             text-decoration: none;
             font-size: 0.9rem;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
         }
         
         .btn-primary {
             background-color: var(--primary);
-            color: white;
+            color: var(--accent);
         }
         
         .btn-primary:hover {
             background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .btn-outline {
@@ -202,7 +326,9 @@
         }
         
         .btn-outline:hover {
-            background-color: rgba(74, 111, 165, 0.1);
+            background-color: rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .btn i {
@@ -229,17 +355,29 @@
             border-radius: 10px;
         }
         
+        /* Clothing Preferences */
         .clothing-preferences {
-            background-color: white;
+            background-color: var(--accent);
             border-radius: 8px;
             padding: 1.5rem;
             margin-top: 1.5rem;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .clothing-preferences:hover {
+            transform: translateY(-5px);
         }
         
         .clothing-preferences h2 {
             margin-bottom: 1rem;
             color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .clothing-preferences h2 i {
+            margin-right: 0.5rem;
         }
         
         table {
@@ -258,37 +396,64 @@
             font-weight: 600;
         }
         
+        /* Final Note */
         .final-note {
             text-align: center;
             margin-top: 2rem;
             padding: 1rem;
             font-style: italic;
-            color: #666;
+            color: var(--gray);
         }
         
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .developer-credit {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        
+        /* Navigation */
         .footer-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: white;
+            background-color: var(--accent);
             display: flex;
             justify-content: space-around;
             padding: 0.8rem;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
         }
         
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #777;
+            color: var(--gray);
             text-decoration: none;
             font-size: 0.8rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 8px;
         }
         
         .nav-item.active {
             color: var(--primary);
+            background-color: rgba(0, 0, 0, 0.05);
         }
         
         .nav-item i {
@@ -296,6 +461,90 @@
             margin-bottom: 0.3rem;
         }
         
+        /* Views */
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        /* Family View */
+        .family-view {
+            padding: 1rem;
+        }
+        
+        .family-member {
+            background-color: var(--accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .family-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .family-member-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .family-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        
+        .family-info h3 {
+            margin-bottom: 0.2rem;
+        }
+        
+        .family-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Settings View */
+        .settings-view {
+            padding: 1rem;
+        }
+        
+        .settings-option {
+            background-color: var(--accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .settings-option:hover {
+            transform: translateY(-5px);
+        }
+        
+        .settings-option h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .settings-option h3 i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive */
         @media (max-width: 600px) {
             .item-actions {
                 flex-direction: column;
@@ -304,6 +553,10 @@
             .btn {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .guide-steps {
+                gap: 1rem;
             }
         }
     </style>
@@ -317,95 +570,262 @@
     </header>
     
     <div class="container">
-        <div class="intro">
-            <p>Hi Mom, Dad, and Grandma! Here's my wish list for this year. Feel free to coordinate with each other so we don't get duplicates!</p>
-            <p>Love you all! ❤️</p>
-        </div>
-        
-        <div class="cashapp-note">
-            <h3><i class="fas fa-lightbulb"></i> Alternative Gift Idea</h3>
-            <p>Everything out of your price range or maybe want to give something extra or something a bit cheaper? Send me some cash to my cashapp - I would love that and it would be great, honestly the best gift.</p>
-            <div class="cashapp-tag">$elijah123shepherd</div>
-        </div>
-        
-        <div class="categories">
-            <div class="category-title">
-                <i class="fas fa-headphones"></i>
-                <h2>Electronics & Accessories</h2>
-            </div>
-            <div class="items-list" id="electronics-list">
-                <!-- Electronics items will be added here by JavaScript -->
-            </div>
-            
-            <div class="category-title">
-                <i class="fas fa-home"></i>
-                <h2>Home, Office, & Decor</h2>
-            </div>
-            <div class="items-list" id="home-list">
-                <!-- Home items will be added here by JavaScript -->
+        <!-- Gift List View -->
+        <div class="view active" id="gift-list-view">
+            <div class="guide fade-in">
+                <h3><i class="fas fa-info-circle"></i> How to Use This App</h3>
+                <div class="guide-steps">
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div>Browse the gift list below and find items you'd like to purchase</div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div><strong>Priority items</strong> are marked with a special badge - these are the ones I really want!</div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div>When you decide to purchase an item, click <strong>"Mark as Purchased"</strong> so others know not to get it</div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">4</div>
+                        <div>If you prefer, you can send money via CashApp instead</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="category-title">
-                <i class="fas fa-tshirt"></i>
-                <h2>Apparel & Personal Items</h2>
-            </div>
-            <div class="items-list" id="apparel-list">
-                <!-- Apparel items will be added here by JavaScript -->
+            <div class="cashapp-section fade-in">
+                <h3><i class="fas fa-lightbulb"></i> Alternative Gift Idea</h3>
+                <p>Everything out of your price range or maybe want to give something extra or something a bit cheaper? Send me some cash to my cashapp - I would love that and it would be great, honestly the best gift.</p>
+                <div class="cashapp-tag bounce">
+                    <i class="fas fa-dollar-sign"></i> $elijah123shepherd
+                </div>
+                <p class="cashapp-note">CashApp is the perfect gift when you're not sure what to get!</p>
             </div>
             
-            <div class="category-title">
-                <i class="fas fa-palette"></i>
-                <h2>Arts & Crafts</h2>
+            <div class="categories">
+                <div class="category-title">
+                    <i class="fas fa-headphones"></i>
+                    <h2>Electronics & Accessories</h2>
+                </div>
+                <div class="items-list" id="electronics-list">
+                    <!-- Electronics items will be added here by JavaScript -->
+                </div>
+                
+                <div class="category-title">
+                    <i class="fas fa-home"></i>
+                    <h2>Home, Office, & Decor</h2>
+                </div>
+                <div class="items-list" id="home-list">
+                    <!-- Home items will be added here by JavaScript -->
+                </div>
+                
+                <div class="category-title">
+                    <i class="fas fa-tshirt"></i>
+                    <h2>Apparel & Personal Items</h2>
+                </div>
+                <div class="items-list" id="apparel-list">
+                    <!-- Apparel items will be added here by JavaScript -->
+                </div>
+                
+                <div class="category-title">
+                    <i class="fas fa-palette"></i>
+                    <h2>Arts & Crafts</h2>
+                </div>
+                <div class="items-list" id="arts-list">
+                    <!-- Arts items will be added here by JavaScript -->
+                </div>
             </div>
-            <div class="items-list" id="arts-list">
-                <!-- Arts items will be added here by JavaScript -->
+            
+            <div class="cashapp-section fade-in">
+                <h3><i class="fas fa-gift"></i> Still Not Sure What to Get?</h3>
+                <p>Cash is always appreciated and gives me the flexibility to get exactly what I need!</p>
+                <div class="cashapp-tag pulse">
+                    <i class="fas fa-money-bill-wave"></i> $elijah123shepherd
+                </div>
+                <p class="cashapp-note">Remember: When you plan on purchasing an item, please click "Mark as Purchased" so others know not to get it!</p>
+            </div>
+            
+            <div class="clothing-preferences fade-in">
+                <h2><i class="fas fa-shopping-bag"></i> Clothing Preferences</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item Type</th>
+                            <th>Size</th>
+                            <th>Style Preference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pants</td>
+                            <td>36" x 34"</td>
+                            <td>Black or regular jeans, must be the stretchy kind</td>
+                        </tr>
+                        <tr>
+                            <td>Shirts</td>
+                            <td>Extra-Large (XL)</td>
+                            <td>Natural colors: Tan and Black</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="final-note fade-in">
+                <p>Note: I don't need anything, all I need is your love, it's alright if nothing is given.</p>
+            </div>
+            
+            <div class="footer fade-in">
+                <p>Made with ❤️ for my amazing family</p>
+                <div class="developer-credit">
+                    <i class="fas fa-code"></i> Powered and Programmed by Elijah Development
+                </div>
             </div>
         </div>
         
-        <div class="clothing-preferences">
-            <h2><i class="fas fa-shopping-bag"></i> Clothing Preferences</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item Type</th>
-                        <th>Size</th>
-                        <th>Style Preference</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Pants</td>
-                        <td>36" x 34"</td>
-                        <td>Black or regular jeans, must be the stretchy kind</td>
-                    </tr>
-                    <tr>
-                        <td>Shirts</td>
-                        <td>Extra-Large (XL)</td>
-                        <td>Natural colors: Tan and Black</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- My List View -->
+        <div class="view" id="my-list-view">
+            <div class="family-view">
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">My Purchased Items</h2>
+                <div id="purchased-items-list">
+                    <!-- Purchased items will be shown here -->
+                </div>
+                <div class="cashapp-section" style="margin-top: 2rem;">
+                    <h3><i class="fas fa-wallet"></i> CashApp Alternative</h3>
+                    <p>If you haven't purchased anything yet, consider sending money via CashApp instead!</p>
+                    <div class="cashapp-tag">
+                        <i class="fas fa-dollar-sign"></i> $elijah123shepherd
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div class="final-note">
-            <p>Note: I don't need anything, all I need is your love, it's alright if nothing is given.</p>
+        <!-- Family View -->
+        <div class="view" id="family-view">
+            <div class="family-view">
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">Family Coordination</h2>
+                
+                <div class="guide">
+                    <h3><i class="fas fa-users"></i> Family Gift Coordination</h3>
+                    <p>This section helps you coordinate with other family members to avoid duplicate gifts.</p>
+                </div>
+                
+                <div class="family-member fade-in">
+                    <div class="family-member-header">
+                        <div class="family-avatar">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <div class="family-info">
+                            <h3>Mom</h3>
+                            <p>Has purchased 2 items</p>
+                        </div>
+                    </div>
+                    <p><strong>Message:</strong> "I'm getting the tablet and headphones. Dad, maybe you could get the art supplies?"</p>
+                </div>
+                
+                <div class="family-member fade-in">
+                    <div class="family-member-header">
+                        <div class="family-avatar">
+                            <i class="fas fa-male"></i>
+                        </div>
+                        <div class="family-info">
+                            <h3>Dad</h3>
+                            <p>Has purchased 1 item</p>
+                        </div>
+                    </div>
+                    <p><strong>Message:</strong> "I'll get the art supplies and maybe the LED lights. Grandma, would you like to get the clothing items?"</p>
+                </div>
+                
+                <div class="family-member fade-in">
+                    <div class="family-member-header">
+                        <div class="family-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="family-info">
+                            <h3>Grandma</h3>
+                            <p>Has purchased 0 items</p>
+                        </div>
+                    </div>
+                    <p><strong>Message:</strong> "I'll get the clothing items and the slippers. Should we all chip in for the tablet?"</p>
+                </div>
+                
+                <div class="cashapp-section" style="margin-top: 2rem;">
+                    <h3><i class="fas fa-comments"></i> Family CashApp Pool</h3>
+                    <p>Consider pooling money together for bigger gifts through CashApp!</p>
+                    <div class="cashapp-tag">
+                        <i class="fas fa-users"></i> $elijah123shepherd
+                    </div>
+                    <p class="cashapp-note">Send any amount - every little bit helps!</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Settings View -->
+        <div class="view" id="settings-view">
+            <div class="settings-view">
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">App Settings</h2>
+                
+                <div class="settings-option fade-in">
+                    <h3><i class="fas fa-bell"></i> Notifications</h3>
+                    <p>Get notified when family members purchase items</p>
+                    <div class="item-actions">
+                        <button class="btn btn-primary">Enable Notifications</button>
+                    </div>
+                </div>
+                
+                <div class="settings-option fade-in">
+                    <h3><i class="fas fa-sync"></i> Sync Data</h3>
+                    <p>Sync your purchased items across devices</p>
+                    <div class="item-actions">
+                        <button class="btn btn-outline">Sync Now</button>
+                    </div>
+                </div>
+                
+                <div class="settings-option fade-in">
+                    <h3><i class="fas fa-share"></i> Share List</h3>
+                    <p>Share this gift list with other family members</p>
+                    <div class="item-actions">
+                        <button class="btn btn-outline">Share via Link</button>
+                    </div>
+                </div>
+                
+                <div class="cashapp-section" style="margin-top: 2rem;">
+                    <h3><i class="fas fa-qrcode"></i> CashApp QR Code</h3>
+                    <p>Scan this code with CashApp to send money quickly</p>
+                    <div style="background: white; padding: 1rem; display: inline-block; border-radius: 8px; margin: 1rem 0;">
+                        <!-- Placeholder for QR code -->
+                        <div style="width: 150px; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                            <i class="fas fa-qrcode" style="font-size: 3rem; color: #333;"></i>
+                        </div>
+                    </div>
+                    <div class="cashapp-tag">
+                        <i class="fas fa-dollar-sign"></i> $elijah123shepherd
+                    </div>
+                </div>
+                
+                <div class="footer" style="margin-top: 2rem;">
+                    <div class="developer-credit">
+                        <i class="fas fa-code"></i> Powered and Programmed by Elijah Development
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
     <div class="footer-nav">
-        <a href="#" class="nav-item active">
+        <a href="#" class="nav-item active" data-view="gift-list-view">
             <i class="fas fa-gift"></i>
             <span>Gifts</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item" data-view="my-list-view">
             <i class="fas fa-list"></i>
             <span>My List</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item" data-view="family-view">
             <i class="fas fa-users"></i>
             <span>Family</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item" data-view="settings-view">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
         </a>
@@ -636,6 +1056,7 @@
             
             savePurchasedItems(purchasedItems);
             renderItems();
+            renderPurchasedItems();
         }
 
         // Render items to the page
@@ -653,13 +1074,13 @@
                 const isPurchased = purchasedItems.includes(item.id);
                 
                 const itemCard = document.createElement('div');
-                itemCard.className = `item-card ${isPurchased ? 'purchased' : ''}`;
+                itemCard.className = `item-card ${isPurchased ? 'purchased' : ''} fade-in`;
                 
                 itemCard.innerHTML = `
                     <div class="item-header">
                         <div>
                             <span class="item-name">${item.name}</span>
-                            ${item.priority ? '<span class="priority-badge">PRIORITY</span>' : ''}
+                            ${item.priority ? '<span class="priority-badge">PRIORITY - I REALLY WANT THIS!</span>' : ''}
                         </div>
                         ${isPurchased ? '<span class="purchased-badge">PURCHASED</span>' : ''}
                     </div>
@@ -674,6 +1095,7 @@
                             ${isPurchased ? 'Mark as Available' : 'Mark as Purchased'}
                         </button>
                     </div>
+                    ${!isPurchased ? '<p style="font-size: 0.8rem; margin-top: 0.5rem; color: #666;"><i class="fas fa-info-circle"></i> <strong>Important:</strong> When you plan on purchasing this item, please click "Mark as Purchased" so others know not to get it. (Will not be viewed by Elijah)</p>' : ''}
                 `;
                 
                 // Add to appropriate category
@@ -681,22 +1103,97 @@
             });
         }
 
+        // Render purchased items in My List view
+        function renderPurchasedItems() {
+            const purchasedItems = loadPurchasedItems();
+            const container = document.getElementById('purchased-items-list');
+            container.innerHTML = '';
+            
+            if (purchasedItems.length === 0) {
+                container.innerHTML = `
+                    <div class="guide">
+                        <h3><i class="fas fa-shopping-cart"></i> No Items Purchased Yet</h3>
+                        <p>You haven't marked any items as purchased. Browse the gift list and mark items you plan to purchase.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            purchasedItems.forEach(itemId => {
+                const item = giftItems.find(i => i.id === itemId);
+                if (item) {
+                    const itemCard = document.createElement('div');
+                    itemCard.className = 'item-card purchased fade-in';
+                    
+                    itemCard.innerHTML = `
+                        <div class="item-header">
+                            <div>
+                                <span class="item-name">${item.name}</span>
+                                ${item.priority ? '<span class="priority-badge">PRIORITY</span>' : ''}
+                            </div>
+                            <span class="purchased-badge">PURCHASED BY YOU</span>
+                        </div>
+                        <div class="item-description">${item.description}</div>
+                        <div class="item-options"><strong>Selected Options:</strong> ${item.options}</div>
+                        <div class="item-actions">
+                            <button class="btn btn-outline" onclick="togglePurchased(${item.id})">
+                                <i class="fas fa-undo"></i> Mark as Available
+                            </button>
+                        </div>
+                    `;
+                    
+                    container.appendChild(itemCard);
+                }
+            });
+        }
+
+        // Switch between views
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // Show selected view
+            document.getElementById(viewId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+                if (nav.getAttribute('data-view') === viewId) {
+                    nav.classList.add('active');
+                }
+            });
+            
+            // Special handling for My List view
+            if (viewId === 'my-list-view') {
+                renderPurchasedItems();
+            }
+        }
+
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             renderItems();
+            renderPurchasedItems();
             
             // Add click event to footer navigation
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function(e) {
                     e.preventDefault();
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // In a real app, this would navigate to different sections
-                    alert('This feature would navigate to different app sections in a full implementation.');
+                    const viewId = this.getAttribute('data-view');
+                    switchView(viewId);
                 });
             });
+            
+            // Show guide on first visit
+            const guideShown = localStorage.getItem('guideShown');
+            if (!guideShown) {
+                setTimeout(() => {
+                    document.querySelector('.guide').classList.add('pulse');
+                    localStorage.setItem('guideShown', 'true');
+                }, 1000);
+            }
         });
     </script>
 </body>
